@@ -22,7 +22,7 @@ src/
     selectors.ts
 
   types/
-    Movie.ts  # Типи (інтерфейси) фільмів
+    Movie.ts
 
   App.tsx
   main.tsx
