@@ -4,27 +4,29 @@ This is a web application designed to store, view, add, delete, and import movie
 
 ## Project architecture
 
-📁 public/
-┣ 📁 api/
-┣ 📁 images/
-┗ index.html
+```plaintext
+public/
+  api/
+  images/
+  index.html
 
-📁 src/
-┣ 📁 app/
-┃ ┣ hooks.ts
-┃ ┗ store.ts
+src/
+  app/
+    hooks.ts
+    store.ts
 
-┣ 📁 components/
+  components/
 
-┣ 📁 features/
-┃ ┗ getMoviesSlice.ts
-┣ ┗ selectors.ts
+  features/
+    getMoviesSlice.ts
+  selectors.ts
 
-┣ 📁 types/
-┃ ┗ Movie.ts # Типи (інтерфейси) фільмів
+  types/
+    Movie.ts  # Типи (інтерфейси) фільмів
 
-┣ App.tsx
-┗ main.tsx
+  App.tsx
+  main.tsx
+```
 
 ## Technologies
 
