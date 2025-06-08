@@ -19,7 +19,7 @@ src/
 
   features/
     getMoviesSlice.ts
-  selectors.ts
+    selectors.ts
 
   types/
     Movie.ts  # Типи (інтерфейси) фільмів
