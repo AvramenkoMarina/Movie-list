@@ -1,13 +1,13 @@
-import MovieList from './components/MovieList/MovieList'
-import Navbar from './components/Navbar/Navbar'
+import { MovieList } from './components/MovieList';
+import { Navbar } from './components/Navbar';
 
 function App() {
-	return (
-		<div className='container'>
-			<Navbar />
-			<MovieList />
-		</div>
-	)
+  return (
+    <div className="container">
+      <Navbar />
+      <MovieList />
+    </div>
+  );
 }
 
-export default App
+export default App;

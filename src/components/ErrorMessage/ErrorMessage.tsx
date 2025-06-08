@@ -1,7 +1,7 @@
-import styles from './ErrorMessage.module.scss'
+import styles from './ErrorMessage.module.scss';
 
 const ErrorMessage = () => {
-	return <div className={styles.error}>Something went wrong 😕</div>
-}
+  return <div className={styles.error}>Something went wrong 😕</div>;
+};
 
-export default ErrorMessage
+export default ErrorMessage;
