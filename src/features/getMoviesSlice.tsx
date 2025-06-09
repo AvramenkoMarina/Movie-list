@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+// src/features/getMoviesSlice.ts
+import { createSlice } from '@reduxjs/toolkit';
 import { Movie } from '../types/Movie';
 
 export interface SetAllMoviesInterface {
@@ -10,21 +11,12 @@ export interface SetAllMoviesInterface {
 }
 
 const initialState: SetAllMoviesInterface = {
-  items: [],
+  items: JSON.parse(localStorage.getItem('movies') || '[]'),
   error: false,
   loaded: false,
   searchQuery: '',
   sortAscending: true,
 };
-
-export const getMoviesAsync = createAsyncThunk<Movie[]>('movies/fetchAll', async () => {
-  const response = await fetch('/api/movies.json');
-  if (!response.ok) {
-    throw new Error('Failed to fetch movies');
-  }
-  const data = await response.json();
-  return data;
-});
 
 export const getMoviesSlice = createSlice({
   name: 'movies',
@@ -32,6 +24,9 @@ export const getMoviesSlice = createSlice({
   reducers: {
     addMovie: (state, action) => {
       state.items.push(action.payload);
+    },
+    addManyMovies: (state, action) => {
+      state.items = [...state.items, ...action.payload];
     },
     removeMovie: (state, action) => {
       state.items = state.items.filter(movie => movie.title !== action.payload);
@@ -46,23 +41,8 @@ export const getMoviesSlice = createSlice({
       state.sortAscending = !state.sortAscending;
     },
   },
-  extraReducers: builder => {
-    builder
-      .addCase(getMoviesAsync.pending, state => {
-        state.loaded = false;
-        state.error = false;
-      })
-      .addCase(getMoviesAsync.fulfilled, (state, action) => {
-        state.items = action.payload;
-        state.loaded = true;
-        state.error = false;
-      })
-      .addCase(getMoviesAsync.rejected, state => {
-        state.loaded = true;
-        state.error = true;
-      });
-  },
 });
 
 export default getMoviesSlice.reducer;
-export const { addMovie, removeMovie, setSearchQuery, sortByTitle } = getMoviesSlice.actions;
+export const { addMovie, addManyMovies, removeMovie, setSearchQuery, sortByTitle } =
+  getMoviesSlice.actions;

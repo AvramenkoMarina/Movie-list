@@ -1,31 +1,47 @@
-import { useEffect } from 'react';
+// src/components/MovieList/MovieList.tsx
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { MovieCard } from '../MovieCard';
+import styles from './MovieList.module.scss';
+import { parseMoviesFromText } from '../../utils/parseMoviesFromText';
+import { addManyMovies } from '../../features/getMoviesSlice';
+import { selectFilteredMovies } from '../../features/selectors';
+import { UploadedFile } from '../../types/UploadedFile';
 import { Loader } from '../Loader';
 import { ErrorMessage } from '../ErrorMessage';
-import { MovieCard } from '../MovieCard';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getMoviesAsync } from '../../features/getMoviesSlice';
-import { selectFilteredMovies } from '../../features/selectors';
-import styles from './MovieList.module.scss';
+import { FileUploader } from '../FileUpload';
 
 const MovieList = () => {
   const dispatch = useAppDispatch();
   const movies = useAppSelector(selectFilteredMovies);
-  const { loaded, error } = useAppSelector(state => state.allMovies);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    dispatch(getMoviesAsync());
-  }, [dispatch]);
+  const handleFileUpload = (files: UploadedFile[]) => {
+    setIsLoading(true);
+    setError(false);
 
-  if (error) return <ErrorMessage />;
-
-  if (!loaded) return <Loader />;
+    try {
+      const allParsedMovies = files.flatMap(file => parseMoviesFromText(file.content));
+      dispatch(addManyMovies(allParsedMovies));
+    } catch (err) {
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className={styles.movielist}>
-      {movies.map((movie, index) => (
-        <MovieCard key={index} movie={movie} />
-      ))}
-    </div>
+    <>
+      <FileUploader onFilesUpload={handleFileUpload} />
+      {isLoading && <Loader />}
+      {error && <ErrorMessage />}
+      <div className={styles.movielist}>
+        {movies.map((movie, index) => (
+          <MovieCard key={index} movie={movie} />
+        ))}
+      </div>
+    </>
   );
 };
 
