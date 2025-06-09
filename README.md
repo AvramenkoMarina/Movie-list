@@ -2,11 +2,14 @@
 
 This is a web application designed to store, view, add, delete, and import movies from a text file. The application allows you to search for movies by title or actor, and also sort the list of movies alphabetically.
 
+## Demo
+
+https://movie-list-three-mauve.vercel.app/
+
 ## Project architecture
 
 ```plaintext
 public/
-  api/
   images/
   index.html
 
@@ -23,6 +26,10 @@ src/
 
   types/
     Movie.ts
+    UploadedFile.ts
+
+  utils/
+    parseMoviesFromText.ts
 
   App.tsx
   main.tsx
